@@ -1,0 +1,57 @@
+{
+  "Create table with dist/sort keys": {
+    "prefix": "rl-create-table",
+    "body": [
+      "CREATE TABLE ${1:schema}.${2:table} (",
+      "\t${3:id}        BIGINT       NOT NULL,",
+      "\t${4:created_at} TIMESTAMP    DEFAULT GETDATE(),",
+      "\t${5:payload}   SUPER",
+      ")",
+      "DISTSTYLE KEY",
+      "DISTKEY (${3:id})",
+      "SORTKEY (${4:created_at});"
+    ],
+    "description": "CREATE TABLE with DISTKEY/SORTKEY (Redshift)"
+  },
+  "UNLOAD to S3": {
+    "prefix": "rl-unload",
+    "body": [
+      "UNLOAD ('${1:SELECT * FROM schema.table}')",
+      "TO 's3://${2:bucket}/${3:prefix}_'",
+      "IAM_ROLE '${4:arn:aws:iam::123456789012:role/RedshiftS3}'",
+      "FORMAT AS ${5|PARQUET,CSV,JSON|}",
+      "PARALLEL ON",
+      "ALLOWOVERWRITE;"
+    ],
+    "description": "UNLOAD a query result to S3"
+  },
+  "COPY from S3": {
+    "prefix": "rl-copy",
+    "body": [
+      "COPY ${1:schema}.${2:table}",
+      "FROM 's3://${3:bucket}/${4:prefix}'",
+      "IAM_ROLE '${5:arn:aws:iam::123456789012:role/RedshiftS3}'",
+      "FORMAT AS ${6|PARQUET,CSV,JSON,AVRO|}",
+      "REGION '${7:us-east-1}';"
+    ],
+    "description": "COPY data into a table from S3"
+  },
+  "Vacuum and analyze": {
+    "prefix": "rl-vacuum",
+    "body": [
+      "VACUUM ${1|FULL,SORT ONLY,DELETE ONLY,REINDEX|} ${2:schema}.${3:table};",
+      "ANALYZE ${2:schema}.${3:table};"
+    ],
+    "description": "VACUUM + ANALYZE a table"
+  },
+  "Create external schema (Spectrum)": {
+    "prefix": "rl-external-schema",
+    "body": [
+      "CREATE EXTERNAL SCHEMA ${1:spectrum}",
+      "FROM DATA CATALOG",
+      "DATABASE '${2:glue_database}'",
+      "IAM_ROLE '${3:arn:aws:iam::123456789012:role/RedshiftSpectrum}';"
+    ],
+    "description": "CREATE EXTERNAL SCHEMA for Spectrum"
+  }
+}

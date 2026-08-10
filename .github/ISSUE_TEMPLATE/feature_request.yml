@@ -1,0 +1,21 @@
+name: Feature request
+description: Something RedLens should do and does not.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feature requests for the free extension are welcome here, including ones
+        that would make it more capable. The tier line is
+        [`src/licensing/tiers.ts`](../../src/licensing/tiers.ts) and it is not a
+        secret — if you think something on the paid side belongs on the free
+        side, say so and make the argument.
+  - type: textarea
+    attributes:
+      label: What are you trying to do?
+      description: The task, not the feature. It is easier to solve a problem than to guess at one.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: How do you work around it today?

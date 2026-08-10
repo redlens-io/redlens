@@ -1,0 +1,36 @@
+name: Bug report
+description: Something in the free RedLens extension does not work as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Two quick routing notes:
+
+        - **RedLens Pro** (dashboard, advisor, monitoring, AI, the console
+          sections, governance admin) is a different extension and is not in
+          this repository — customer support for it is at
+          <https://redlens-io.github.io/support>.
+        - **Never paste credentials, endpoints or real query results here.**
+          This is a public issue tracker. Redact anything that identifies your
+          warehouse; a schema shape is almost always enough to reproduce.
+  - type: textarea
+    attributes:
+      label: What happened, and what you expected instead
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: If you can reproduce it in **Demo** mode, say so — that makes it fixable without your data.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Connection type
+      description: data-api, direct, direct+ssh, demo, or plain PostgreSQL (compat)
+  - type: input
+    attributes:
+      label: RedLens version and VS Code version
+    validations:
+      required: true

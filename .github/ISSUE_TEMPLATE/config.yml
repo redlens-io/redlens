@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: RedLens Pro support (paying customers)
+    url: https://redlens-io.github.io/support
+    about: The dashboard, advisor, monitoring, AI, console sections and governance admin are a separate paid extension with its own support channel.
+  - name: Security vulnerability
+    url: https://github.com/redlens-io/redlens/security/advisories/new
+    about: Please report privately, not as a public issue.

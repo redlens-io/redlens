@@ -1,0 +1,869 @@
+{
+  "name": "redlens",
+  "displayName": "RedLens \u2014 SQL IDE & MCP for Amazon Redshift",
+  "description": "Redshift-native SQL IDE for VS Code: Data API and direct connections, schema explorer, query results, and an embedded MCP server for AI agents.",
+  "version": "0.9.0",
+  "publisher": "redlens",
+  "homepage": "https://redlens-io.github.io",
+  "license": "MIT",
+  "pricing": "Free",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redlens-io/redlens.git"
+  },
+  "bugs": {
+    "url": "https://github.com/redlens-io/redlens/issues"
+  },
+  "engines": {
+    "vscode": "^1.102.0"
+  },
+  "categories": [
+    "Data Science",
+    "Other"
+  ],
+  "keywords": [
+    "redshift",
+    "aws",
+    "sql",
+    "warehouse",
+    "mcp"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "redlens.showWelcome",
+        "title": "Welcome",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.showCluster",
+        "title": "Cluster Configuration",
+        "category": "RedLens",
+        "icon": "$(server)",
+        "enablement": "redlens.connected"
+      },
+      {
+        "command": "redlens.refreshCluster",
+        "title": "Refresh Cluster",
+        "category": "RedLens",
+        "icon": "$(refresh)",
+        "enablement": "redlens.connected"
+      },
+      {
+        "command": "redlens.cluster.showSection",
+        "title": "Show Cluster Section",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.proUpsell",
+        "title": "About Pro",
+        "category": "RedLens",
+        "icon": "$(lock)"
+      },
+      {
+        "command": "redlens.addConnection",
+        "title": "Add Connection",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.manageConnections",
+        "title": "Manage Connections",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.manageHostKeys",
+        "title": "Manage SSH Host Keys",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.disconnect",
+        "title": "Disconnect",
+        "category": "RedLens",
+        "enablement": "redlens.connected"
+      },
+      {
+        "command": "redlens.toggleReadOnly",
+        "title": "Toggle Read-Only",
+        "category": "RedLens",
+        "enablement": "redlens.connected"
+      },
+      {
+        "command": "redlens.toggleProduction",
+        "title": "Toggle Production Safeguard",
+        "category": "RedLens",
+        "enablement": "redlens.connected"
+      },
+      {
+        "command": "redlens.toggleAutoCommit",
+        "title": "Toggle Auto-Commit",
+        "category": "RedLens",
+        "enablement": "redlens.connected"
+      },
+      {
+        "command": "redlens.commitTransaction",
+        "title": "Commit Transaction",
+        "category": "RedLens",
+        "enablement": "redlens.inTransaction"
+      },
+      {
+        "command": "redlens.rollbackTransaction",
+        "title": "Rollback Transaction",
+        "category": "RedLens",
+        "enablement": "redlens.inTransaction"
+      },
+      {
+        "command": "redlens.togglePiiSafeMode",
+        "title": "Toggle PII-Safe Mode",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.runQuery",
+        "title": "Run Query",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.cancelQuery",
+        "title": "Cancel Query",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.refreshExplorer",
+        "title": "Refresh Explorer",
+        "category": "RedLens",
+        "enablement": "redlens.connected",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "redlens.previewTable",
+        "title": "Preview Table (first 100 rows)",
+        "category": "RedLens",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "redlens.editTableData",
+        "title": "Edit Table Data",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.pasteRowsIntoGrid",
+        "title": "Paste Rows into Grid",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.chartResults",
+        "title": "Chart Results",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.toggleHeatmap",
+        "title": "Toggle Heatmap",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.transposeResults",
+        "title": "Transpose Results",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.groupResults",
+        "title": "Group Results",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.pinBaseline",
+        "title": "Pin Compare Baseline",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.compareResults",
+        "title": "Compare With Baseline",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.newNotebook",
+        "title": "New SQL Notebook",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.commitGridEdits",
+        "title": "Save Grid Edits",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.showHistory",
+        "title": "Query History",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.saveQuery",
+        "title": "Save Query",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.openSavedQuery",
+        "title": "Open Saved Query",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.searchObjects",
+        "title": "Go to Table or Column",
+        "category": "RedLens",
+        "enablement": "redlens.connected"
+      },
+      {
+        "command": "redlens.findUsages",
+        "title": "Find Usages",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.scriptObject",
+        "title": "Script Table",
+        "category": "RedLens",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "redlens.explainQuery",
+        "title": "Explain Query",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.explainAnalyze",
+        "title": "Explain Analyze",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.showDashboard",
+        "title": "Performance Dashboard",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.tableAdvisor",
+        "title": "Table Advisor",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.monitoring",
+        "title": "Query & Load Monitoring",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.sessionsLocks",
+        "title": "Sessions & Locks",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.datashares",
+        "title": "Datashares & Spectrum",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.datashare.queryObject",
+        "title": "Query Shared Object",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.datashare.copyNamespace",
+        "title": "Copy Namespace GUID",
+        "category": "RedLens",
+        "icon": "$(clippy)"
+      },
+      {
+        "command": "redlens.showPrivileges",
+        "title": "Show Privileges",
+        "category": "RedLens",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "redlens.scriptGrants",
+        "title": "Script Grants",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.explainPlanAI",
+        "title": "Explain Plan with AI",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.optimizeQuery",
+        "title": "Optimize Query with AI",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.nlToSql",
+        "title": "Generate SQL with AI",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.describeObject",
+        "title": "Describe Table with AI",
+        "category": "RedLens",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "redlens.fixLastError",
+        "title": "Fix Last Error with AI",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.schemaDiagram",
+        "title": "Schema Diagram",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.generateMockData",
+        "title": "Generate Mock Data",
+        "category": "RedLens",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "redlens.queryBuilder",
+        "title": "Visual Query Builder",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.mapView",
+        "title": "Map View",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.importCsv",
+        "title": "Import CSV",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.newTable",
+        "title": "New Table",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.connectToProfile",
+        "title": "Connect to Profile",
+        "category": "RedLens"
+      },
+      {
+        "command": "redlens.statusBarMenu",
+        "title": "Status & Toggles",
+        "category": "RedLens"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "redlens",
+          "title": "RedLens",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "redlens": [
+        {
+          "id": "redlensExplorer",
+          "name": "Database",
+          "icon": "media/icon.svg"
+        },
+        {
+          "id": "redlensTools",
+          "name": "Tools",
+          "icon": "media/icon.svg"
+        },
+        {
+          "id": "redlensCluster",
+          "name": "Cluster",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "redlensExplorer",
+        "contents": "No active connection yet.\n[Connect / Manage Connections](command:redlens.manageConnections)\n[Add a Connection](command:redlens.addConnection)\nTip: pick \"Demo\" in the wizard to explore RedLens without a database."
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "redlens.getStarted",
+        "title": "Get Started with RedLens",
+        "description": "Connect to Amazon Redshift, explore and query, optimize, and use AI agents.",
+        "steps": [
+          {
+            "id": "connect",
+            "title": "Connect (or try Demo)",
+            "description": "Four ways to connect \u2014 or pick Demo for a zero-credential sample warehouse.\n[Add a Connection](command:redlens.addConnection)",
+            "media": {
+              "markdown": "media/walkthrough/connect.md"
+            }
+          },
+          {
+            "id": "explore",
+            "title": "Explore & query",
+            "description": "Browse schemas, preview tables, and run queries with Ctrl+Enter.\n[Open the RedLens view](command:redlensExplorer.focus)",
+            "media": {
+              "markdown": "media/walkthrough/explore.md"
+            }
+          },
+          {
+            "id": "optimize",
+            "title": "Optimize like a warehouse engineer",
+            "description": "Visualize plans, see table health, and get AI suggestions.",
+            "media": {
+              "markdown": "media/walkthrough/optimize.md"
+            }
+          },
+          {
+            "id": "agents",
+            "title": "Use with AI agents (MCP)",
+            "description": "RedLens exposes your connections to Copilot/Claude via an embedded MCP server.",
+            "media": {
+              "markdown": "media/walkthrough/agents.md"
+            }
+          }
+        ]
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "redlens.refreshExplorer",
+          "when": "view == redlensExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "redlens.refreshCluster",
+          "when": "view == redlensCluster",
+          "group": "navigation"
+        },
+        {
+          "command": "redlens.showDashboard",
+          "when": "view == redlensExplorer",
+          "group": "1_performance"
+        },
+        {
+          "command": "redlens.tableAdvisor",
+          "when": "view == redlensExplorer",
+          "group": "1_performance"
+        },
+        {
+          "command": "redlens.monitoring",
+          "when": "view == redlensExplorer",
+          "group": "1_performance"
+        },
+        {
+          "command": "redlens.sessionsLocks",
+          "when": "view == redlensExplorer",
+          "group": "1_performance"
+        },
+        {
+          "command": "redlens.schemaDiagram",
+          "when": "view == redlensExplorer",
+          "group": "2_schema"
+        },
+        {
+          "command": "redlens.newTable",
+          "when": "view == redlensExplorer",
+          "group": "2_schema"
+        },
+        {
+          "command": "redlens.importCsv",
+          "when": "view == redlensExplorer",
+          "group": "3_transfer"
+        },
+        {
+          "command": "redlens.manageConnections",
+          "when": "view == redlensExplorer",
+          "group": "4_connection"
+        },
+        {
+          "command": "redlens.addConnection",
+          "when": "view == redlensExplorer",
+          "group": "4_connection"
+        },
+        {
+          "command": "redlens.disconnect",
+          "when": "view == redlensExplorer",
+          "group": "4_connection"
+        },
+        {
+          "command": "redlens.statusBarMenu",
+          "when": "view == redlensExplorer",
+          "group": "5_status"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "redlens.previewTable",
+          "when": "view == redlensExplorer && viewItem == redlens.table",
+          "group": "inline"
+        },
+        {
+          "submenu": "redlens.obj.scripting",
+          "when": "view == redlensExplorer && viewItem == redlens.table",
+          "group": "1_object"
+        },
+        {
+          "submenu": "redlens.obj.governance",
+          "when": "view == redlensExplorer && (viewItem == redlens.table || viewItem == redlens.schema)",
+          "group": "1_object"
+        },
+        {
+          "submenu": "redlens.obj.ai",
+          "when": "view == redlensExplorer && viewItem == redlens.table",
+          "group": "1_object"
+        },
+        {
+          "command": "redlens.datashare.copyNamespace",
+          "when": "view == redlensExplorer && viewItem == redlens.section.datashares",
+          "group": "inline"
+        },
+        {
+          "command": "redlens.datashare.copyNamespace",
+          "when": "view == redlensExplorer && viewItem =~ /redlens.datashare.(inbound|outbound)/",
+          "group": "1_share"
+        },
+        {
+          "command": "redlens.datashare.queryObject",
+          "when": "view == redlensExplorer && viewItem == redlens.dsObject",
+          "group": "1_share"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "redlens.showCluster",
+          "when": "false"
+        },
+        {
+          "command": "redlens.refreshCluster",
+          "when": "false"
+        },
+        {
+          "command": "redlens.cluster.showSection",
+          "when": "false"
+        },
+        {
+          "command": "redlens.proUpsell",
+          "when": "false"
+        },
+        {
+          "command": "redlens.disconnect",
+          "when": "false"
+        },
+        {
+          "command": "redlens.toggleReadOnly",
+          "when": "false"
+        },
+        {
+          "command": "redlens.toggleProduction",
+          "when": "false"
+        },
+        {
+          "command": "redlens.toggleAutoCommit",
+          "when": "false"
+        },
+        {
+          "command": "redlens.commitTransaction",
+          "when": "false"
+        },
+        {
+          "command": "redlens.rollbackTransaction",
+          "when": "false"
+        },
+        {
+          "command": "redlens.togglePiiSafeMode",
+          "when": "false"
+        },
+        {
+          "command": "redlens.refreshExplorer",
+          "when": "false"
+        },
+        {
+          "command": "redlens.previewTable",
+          "when": "false"
+        },
+        {
+          "command": "redlens.editTableData",
+          "when": "false"
+        },
+        {
+          "command": "redlens.pasteRowsIntoGrid",
+          "when": "false"
+        },
+        {
+          "command": "redlens.chartResults",
+          "when": "false"
+        },
+        {
+          "command": "redlens.toggleHeatmap",
+          "when": "false"
+        },
+        {
+          "command": "redlens.transposeResults",
+          "when": "false"
+        },
+        {
+          "command": "redlens.groupResults",
+          "when": "false"
+        },
+        {
+          "command": "redlens.pinBaseline",
+          "when": "false"
+        },
+        {
+          "command": "redlens.compareResults",
+          "when": "false"
+        },
+        {
+          "command": "redlens.commitGridEdits",
+          "when": "false"
+        },
+        {
+          "command": "redlens.scriptObject",
+          "when": "false"
+        },
+        {
+          "command": "redlens.showDashboard",
+          "when": "false"
+        },
+        {
+          "command": "redlens.tableAdvisor",
+          "when": "false"
+        },
+        {
+          "command": "redlens.monitoring",
+          "when": "false"
+        },
+        {
+          "command": "redlens.sessionsLocks",
+          "when": "false"
+        },
+        {
+          "command": "redlens.datashares",
+          "when": "false"
+        },
+        {
+          "command": "redlens.datashare.queryObject",
+          "when": "false"
+        },
+        {
+          "command": "redlens.datashare.copyNamespace",
+          "when": "false"
+        },
+        {
+          "command": "redlens.showPrivileges",
+          "when": "false"
+        },
+        {
+          "command": "redlens.scriptGrants",
+          "when": "false"
+        },
+        {
+          "command": "redlens.describeObject",
+          "when": "false"
+        },
+        {
+          "command": "redlens.schemaDiagram",
+          "when": "false"
+        },
+        {
+          "command": "redlens.generateMockData",
+          "when": "false"
+        },
+        {
+          "command": "redlens.queryBuilder",
+          "when": "false"
+        },
+        {
+          "command": "redlens.mapView",
+          "when": "false"
+        },
+        {
+          "command": "redlens.importCsv",
+          "when": "false"
+        },
+        {
+          "command": "redlens.newTable",
+          "when": "false"
+        },
+        {
+          "command": "redlens.connectToProfile",
+          "when": "false"
+        }
+      ],
+      "redlens.obj.scripting": [
+        {
+          "command": "redlens.scriptObject",
+          "group": "1_ddl"
+        },
+        {
+          "command": "redlens.generateMockData",
+          "group": "2_data"
+        }
+      ],
+      "redlens.obj.governance": [
+        {
+          "command": "redlens.showPrivileges",
+          "group": "1_read"
+        },
+        {
+          "command": "redlens.scriptGrants",
+          "group": "2_write"
+        }
+      ],
+      "redlens.obj.ai": [
+        {
+          "command": "redlens.describeObject"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "redlens.runQuery",
+        "key": "ctrl+enter",
+        "mac": "cmd+enter",
+        "when": "editorTextFocus && editorLangId == sql"
+      }
+    ],
+    "configuration": {
+      "title": "RedLens",
+      "properties": {
+        "redlens.connections": {
+          "type": "array",
+          "default": [],
+          "description": "Redshift connection profiles (managed by RedLens; credentials live in VS Code Secret Storage, never in settings)."
+        },
+        "redlens.introspectionLevel": {
+          "type": "string",
+          "enum": [
+            "names",
+            "full"
+          ],
+          "default": "names",
+          "enumDescriptions": [
+            "Load only schema/table names eagerly; fetch columns lazily (fast on large catalogs).",
+            "Prefetch columns for the first schemas too (richer completion, heavier introspection)."
+          ],
+          "description": "How much catalog metadata RedLens preloads. Redshift introspection can be expensive on large clusters."
+        },
+        "redlens.piiSafeMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "PII-safe mode: mask the columns in redlens.piiColumns in the grid, exports, and \u2014 importantly \u2014 before results reach the embedded MCP server, so AI agents never see raw PII."
+        },
+        "redlens.piiColumns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "email",
+            "ssn",
+            "phone",
+            "*card*",
+            "password",
+            "secret"
+          ],
+          "description": "Column-name patterns treated as PII when redlens.piiSafeMode is on. Substring match, or glob if it contains '*' (case-insensitive)."
+        },
+        "redlens.cloudWatch.rpuPriceUsd": {
+          "type": "number",
+          "default": 0.36,
+          "minimum": 0,
+          "description": "Price per RPU-hour used to estimate Redshift Serverless compute cost on the dashboard. The default is the us-east-1 list price; set your region's rate (or your negotiated one) so the estimate is not quietly wrong."
+        },
+        "redlens.telemetry.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Send anonymous usage telemetry (which RedLens commands are used). Off by default: there is no telemetry backend yet, so leaving it on would show an \"uses online services\" notice for data that goes nowhere. Never includes SQL, object names, endpoints, error messages or results. VS Code\u2019s global telemetry setting always takes precedence: if it is off, RedLens sends nothing regardless of this.",
+          "tags": [
+            "telemetry",
+            "usesOnlineServices"
+          ]
+        }
+      }
+    },
+    "mcpServerDefinitionProviders": [
+      {
+        "id": "redlens.mcpProvider",
+        "label": "RedLens Redshift MCP"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "sql",
+        "path": "snippets/redshift.json"
+      }
+    ],
+    "notebooks": [
+      {
+        "type": "redlens-sql",
+        "displayName": "RedLens SQL Notebook",
+        "selector": [
+          {
+            "filenamePattern": "*.rlnb"
+          }
+        ]
+      }
+    ],
+    "chatParticipants": [
+      {
+        "id": "redlens.chat",
+        "name": "redlens",
+        "fullName": "RedLens",
+        "description": "Ask about your Amazon Redshift schema, queries, and tuning",
+        "isSticky": true
+      }
+    ],
+    "submenus": [
+      {
+        "id": "redlens.obj.scripting",
+        "label": "Scripting"
+      },
+      {
+        "id": "redlens.obj.governance",
+        "label": "Governance"
+      },
+      {
+        "id": "redlens.obj.ai",
+        "label": "AI"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "node esbuild.integration.mjs && node out-integration/runTest.js",
+    "shots": "node esbuild.integration.mjs && node out-integration/runShots.js",
+    "test:ui": "playwright test",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cloudwatch": "^3.700.0",
+    "@aws-sdk/client-redshift": "^3.700.0",
+    "@aws-sdk/client-redshift-data": "^3.700.0",
+    "@aws-sdk/client-redshift-serverless": "^3.700.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "pg": "^8.13.0",
+    "sql-formatter": "^15.4.0",
+    "ssh2": "^1.16.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.48.0",
+    "@types/pg": "^8.11.0",
+    "@types/node": "^20.14.0",
+    "@types/ssh2": "^1.15.0",
+    "@types/vscode": "1.102.0",
+    "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^3.0.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

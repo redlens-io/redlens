@@ -1,0 +1,30 @@
+# CI for the free RedLens extension.
+#
+# Free-only by construction: this repository contains no paid code, so there is
+# nothing here that needs a licence, a secret or an AWS account. Anyone's fork
+# gets the same green run, which is the point of opening it.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+      # The packaging allowlist is only as good as the last time someone ran
+      # vsce. This is the authoritative check the tests can only approximate.
+      - name: Verify what the .vsix would contain
+        run: npx @vscode/vsce ls

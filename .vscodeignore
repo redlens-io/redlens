@@ -1,0 +1,37 @@
+# Allowlist, not denylist (S-01).
+#
+# The denylist that used to live here failed exactly the way denylists fail:
+# `vsce ls` showed the package would ship scripts/aws/*.ps1 (a personal email
+# and AWS resource names), scripts/vm-*.cmd (the lab VM's IP and paths),
+# out-integration/*.js (the built test harness) and raw TypeScript sources —
+# none of which the extension needs to run. Every new folder added to the repo
+# would have had to be remembered here, forever.
+#
+# So: exclude everything, then add back only what is loaded at runtime. A new
+# folder is now invisible to the package by default.
+#
+# Verify after ANY change with:  npx @vscode/vsce ls
+
+**
+
+# --- required by the Marketplace ---
+!package.json
+!README.md
+!LICENSE.md
+!CHANGELOG.md
+# Third-party notices: EULA section 5.4 promises this ships WITH the extension,
+# not just in the repo, so a customer can read it without network access.
+!NOTICES.md
+
+# --- loaded at runtime ---
+# Named precisely, never with a folder wildcard: in vsce a `!` rule always wins
+# over every exclusion regardless of order, so `!dist/webview/**` would re-include
+# the .map files permanently and no later rule could take them back out. Source
+# maps re-expose the whole source and add ~5 MB.
+!dist/extension.js
+!dist/mcp-server.js
+!dist/webview/*.js
+!media/icon.png
+!media/icon.svg
+!media/walkthrough/*.md
+!snippets/*.json

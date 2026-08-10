@@ -1,0 +1,12 @@
+node_modules/
+dist/
+out-integration/
+.vscode-test/
+*.vsix
+coverage/
+.env
+*.log
+
+# Playwright (UI-interaction harness) artifacts
+test-results/
+playwright-report/

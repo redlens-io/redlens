@@ -1,0 +1,410 @@
+# RedLens — SQL IDE & MCP for Amazon Redshift
+
+**A Redshift-native SQL IDE for VS Code, with an MCP server built in.**
+
+Connect four ways, browse your catalog, run SQL, read plans with warehouse-aware
+warnings — and hand the same connections to Copilot or Claude without wiring up a
+thing. Built for data engineers, analytics engineers and anyone who lives in
+Redshift and would rather not live in a browser tab.
+
+<!-- TODO(diego): HERO GIF — the single highest-leverage element on this page.
+     10-15 seconds: Demo mode -> run a query -> grid -> an EXPLAIN DS_BCAST
+     warning firing. The old blocker is gone: this repository is public now, so
+     a raw.githubusercontent.com URL works. Still must be an absolute https://
+     URL, and PNG or GIF — the Marketplace rejects SVG in README.md. -->
+
+---
+
+## Open source
+
+**This extension is open source under the MIT licence.** Everything described
+below as free is in this repository — you can read it, build it, fork it, and
+use it commercially without asking anyone.
+
+RedLens is open core. There is a second, paid extension — **RedLens Pro** — that
+adds warehouse-specific advice, the Redshift console, AI grounded in your schema
+and governance administration. It is closed source and it is a separate install.
+
+Three things worth saying plainly, because open core has a reputation and it was
+earned:
+
+- **The free tier is the whole free product, not a demo.** Connecting, browsing,
+  editing, running, reading results and the embedded MCP server are complete and
+  stay that way.
+- **Nothing that ships free ever moves to Pro.** New Pro features are new
+  features, never features you already had.
+- **Where the line falls is a file you can read**: [`src/licensing/tiers.ts`](src/licensing/tiers.ts).
+  It lives in the open repository on purpose. You should not have to install
+  anything to find out what you are getting.
+
+Every safety feature is free and always will be — read-only mode, the production
+safeguard, transaction control and PII-safe masking. Charging for not leaking
+PII is not a position worth defending.
+
+---
+
+## Free and Pro
+
+RedLens installs free, and **Free is a complete daily loop — not a demo.**
+
+Unlimited connections of all four kinds, the schema explorer, the SQL editor with
+metadata-driven autocomplete and linting, the **entire** result grid, query
+history, saved queries, SQL notebooks, the EXPLAIN visualizer, the visual query
+builder, CSV import, the governance tree, sessions and locks, the basic read-only
+MCP tools, and **every safety feature**. Connections are never counted. History
+is never capped.
+
+**Pro is what saves money, prevents incidents and governs.**
+
+| | Free | Pro |
+|---|:---:|:---:|
+| Connections — Data API · direct · SSH bastion · Demo | Unlimited | Unlimited |
+| Schema explorer, external (Spectrum) schemas, table preview | ✓ | ✓ |
+| SQL editor — metadata autocomplete, linting, cancel, transactions | ✓ | ✓ |
+| Result grid — sort, filter, charts, heatmap, transpose, grouping, run comparison, inline edit, export | ✓ | ✓ |
+| Query history · saved queries · SQL notebooks · visual query builder | ✓ | ✓ |
+| EXPLAIN visualizer — `DS_BCAST`/`DS_DIST` warnings, DISTKEY/SORTKEY advice | ✓ | ✓ |
+| CSV import · schema diagram · object scripting · mock data | ✓ | ✓ |
+| Governance tree — datashares, users, roles, privileges, sessions, locks | ✓ | ✓ |
+| Safety — read-only mode, production safeguard, PII-safe masking | ✓ | ✓ |
+| MCP server — `list_*`, `execute_query` (read-only), `explain_query` | ✓ | ✓ |
+| Performance Dashboard — CloudWatch metrics, RPU cost | — | ✓ |
+| Table Advisor — skew, stale stats, AWS Advisor recommendations + SQL | — | ✓ |
+| Query & Load Monitoring — WLM queueing, per-query cost, decoded COPY errors | — | ✓ |
+| Cluster view — parameters, network, snapshots, maintenance, logging, limits, events | Properties only | All ten sections |
+| Generated `aws` CLI for console actions · read-only IAM policy generator | — | ✓ |
+| Compare Schemas · Compare Table Data · Schedule Query | — | ✓ |
+| S3 UNLOAD / COPY wizards | — | ✓ |
+| Effective Access · RLS & masking policies · user/role/datashare admin code-gen | — | ✓ |
+| AI — NL→SQL, explain plan, optimize, fix last error, describe object, `@redlens` chat | — | ✓ |
+| Advanced MCP tools — table health, query history, recommendations, write, UNLOAD | — | ✓ |
+
+**Every install starts with 14 days of full Pro. No credit card. No account. No
+sign-up.** The trial begins on first activation. When it ends nothing breaks —
+the Pro features lock, everything else keeps working forever.
+
+> **Our promise: nothing that ships Free ever moves to Pro.** New Pro features
+> are new features, never features you already had.
+
+### Price
+
+- **Pro — $99 per user / year.** Early adopters: **$79 for the first year.**
+- **Team — $199 per user / year**, minimum 5 seats.
+- Enterprise — on request.
+
+**Licences are bought outside VS Code and outside the Visual Studio Marketplace.**
+You purchase a key on the RedLens site, receive it by email, and paste it into VS
+Code with **`RedLens: Manage Licence`**. There is no account to create and no
+RedLens server to talk to: keys are verified **offline** against a public key
+embedded in the extension.
+
+Two commitments that come with paying:
+
+- **Refunds: 14 days, no questions asked** — on a purchase or a renewal.
+- **After twelve months of paying, the last version you paid for is yours to
+  keep**, permanently, Pro features included. You stop getting upgrades and
+  support, not the software.
+
+<!-- TODO(diego): the pricing page must exist before publishing — see the
+     checklist at the bottom of this file. Also blocked on it: the extension
+     still ships a PLACEHOLDER Ed25519 public key, so no real licence key can
+     verify yet. Do not publish until the real key is in. -->
+
+---
+
+## Why RedLens
+
+**Redshift-native, not Postgres-with-a-hat.** No driver to hunt down, no second
+extension to install. Distribution and sort key advice, skew, WLM queues, RPU
+cost, decoded COPY errors, datashares, RLS and masking, effective permissions —
+the things a Redshift warehouse actually breaks on.
+
+**The MCP server is built in.** Your connections are exposed to GitHub Copilot,
+Claude and any MCP client inside VS Code, with **engine-level read-only
+enforcement** — the guarantee lives in the query engine, not in a prompt. Zero
+configuration; installing RedLens is the setup.
+
+**PII is masked before results reach the model.** With PII-safe mode on, masking
+happens on the way out of the engine, so a language model or MCP client never
+sees the raw values.
+
+**Nothing leaves your machine.** No account, no telemetry backend, no licence
+server. AWS credentials stay in `~/.aws` or VS Code Secret Storage. RedLens works
+inside a private VPC with no egress.
+
+---
+
+## Connect four ways
+
+| Mode | What it needs | Good for |
+|---|---|---|
+| **Demo** | Nothing at all | Seeing the whole product in about ten seconds |
+| **Redshift Data API** | IAM credentials from `~/.aws` | No network setup, no VPC access, no ports |
+| **Direct (Postgres wire)** | Host, port, database, credentials | Publicly reachable or peered clusters |
+| **Direct via SSH bastion** | The above plus a jump host | Private clusters in a VPC |
+
+Profiles are saved; passwords and keys live in VS Code Secret Storage. For
+cross-user query monitoring on a real cluster you will also want the
+`SYS:MONITOR` role granted to the connecting user.
+
+**Start with Demo mode.** No credentials, no cluster, no AWS account — a sample
+warehouse loads instantly and every Free feature works against it.
+
+---
+
+## What you get
+
+### Schema explorer
+A lazy tree of schemas → tables and views → columns, including external
+(Spectrum) schemas. One-click preview of a table's first rows, object scripting,
+a schema diagram, search across objects and find-usages.
+
+### SQL editor
+Run a selection or a whole file with **Ctrl+Enter**, cancel a running query,
+control transactions explicitly. Autocomplete is driven by live catalog metadata
+— real schemas, tables and columns — plus Redshift keywords and functions.
+Linting, snippets, saved queries and a searchable history come with it.
+
+### The result grid — all of it, free
+Sort, filter, chart, heatmap, transpose, group, pin a baseline and diff two runs
+against each other, edit rows in place and commit, paste rows in, export. There
+is no "premium grid".
+
+### SQL notebooks and the visual query builder
+Notebook cells for narrative analysis; a builder for when you would rather click
+than type.
+
+### EXPLAIN visualizer
+The plan as a tree, with warehouse-aware warnings — `DS_BCAST` / `DS_DIST`
+broadcasts, oversized scans — and concrete DISTKEY/SORTKEY advice. `EXPLAIN
+ANALYZE` too.
+
+### Embedded MCP server
+Read-only tools registered automatically inside VS Code: list databases, schemas,
+tables and columns, run a read-only query, explain a query. Read-only is enforced
+by the engine. Point Copilot or Claude at your warehouse without writing a config
+file.
+
+### Safety, always free
+Read-only mode. A production safeguard that makes you confirm before a write
+against a cluster you have flagged as production. PII-safe masking. These are
+free forever and, by design, cannot be moved to Pro.
+
+<!-- TODO(diego): SCREENSHOTS. 45 PNGs exist in the repo but it is PRIVATE, so
+     relative paths render broken on the Marketplace. Once the public assets host
+     exists, embed 4-6 absolute-https images, one per feature section. Strongest:
+       03-editor-sql.png, 05-explain-plan.png, 06-dashboard.png,
+       37-cloudwatch-metrics.png, 33-tools-view.png, 39-cluster-parameters.png
+     PNG only — the Marketplace rejects SVG images in README.md. -->
+
+### Performance Dashboard `Pro`
+CloudWatch infrastructure metrics next to query activity, and the RPU cost of the
+window you are looking at. Refreshes only when you ask it to — metric calls are
+billed per request, and a panel that polls on a timer is a bill you did not
+agree to.
+
+### Table Advisor `Pro`
+Distribution and sort key advice, skew, stale statistics — plus the AWS Advisor
+recommendations with the SQL they recommend.
+
+### Query & Load Monitoring `Pro`
+WLM queueing, cost per query, and COPY errors decoded into something you can act
+on.
+
+### Cluster view `Pro`
+The Redshift console's configuration in the sidebar: parameters, network,
+snapshots, maintenance, logging, scheduled actions, limits, events and reserved
+nodes. Read-only, and Properties is free. Parameters that differ from the engine
+default are listed first — the console does not do that. RedLens never mutates
+your cluster: for actions it **generates** the `aws` CLI for you to review and
+run, and it will generate the minimal read-only IAM policy it needs, explaining
+what breaks without each statement.
+
+### Compare Schemas · Compare Table Data · Schedule Query `Pro`
+Diff two schemas and get the migration DDL. Row-level diff between two tables.
+Generate the EventBridge Scheduler CLI to run a query on a schedule.
+
+### S3 UNLOAD / COPY wizards `Pro`
+Guided UNLOAD with format, compression and partitioning; guided COPY with the IAM
+role and the error handling COPY actually needs. Generated for review — never
+executed behind your back.
+
+### Governance `Pro`
+Effective Access: why a user can do something, with transitive role resolution
+and the exact path that grants it. RLS and masking policies. Generated user, role
+and datashare SQL, always for review, never executed.
+
+### AI `Pro`
+Natural language to SQL, explain a plan, optimize a query, fix the last error,
+describe an object — all grounded in your live catalog — plus the `@redlens` chat
+participant. AI runs on **your** VS Code language model subscription; RedLens
+ships no model and no API key.
+
+---
+
+## Requirements
+
+- VS Code — see the **Version** field on this page for the minimum release.
+- A workspace you trust: RedLens holds warehouse credentials and can open SSH
+  tunnels, so it does not run in Restricted Mode.
+- For **Data API** connections: AWS credentials in `~/.aws` with permission to
+  call the Redshift Data API. RedLens can generate the minimal read-only IAM
+  policy for you.
+- For **direct** connections: network reachability to the cluster (optionally
+  through an SSH bastion).
+- For **Demo** mode: nothing.
+- **AI features** use the VS Code language model API and therefore require an
+  active Copilot (or equivalent) subscription. RedLens does not resell model
+  access.
+
+RedLens starts an **embedded MCP server as a separate local process** so MCP
+clients inside VS Code can reach your connections. It communicates over stdio, is
+registered only within VS Code, and stops with the extension.
+
+---
+
+## Security and privacy
+
+- **No RedLens server.** No account, no sign-in, no callback. The extension never
+  phones home to us.
+- **Credentials stay local.** IAM credentials are read from `~/.aws`; passwords,
+  SSH keys and licence keys live in VS Code Secret Storage.
+- **Licence keys verify offline** against an Ed25519 public key embedded in the
+  extension. RedLens works in an air-gapped VPC with no egress.
+- **Read-only is enforced in the engine**, not in a prompt — that is what makes
+  exposing your warehouse to a language model defensible.
+- **PII-safe mode masks values before they leave the engine**, so MCP clients and
+  language models never receive the raw data.
+- **Your SQL, schema names, endpoints, results and errors are never transmitted**
+  to RedLens.
+
+Telemetry is **off by default**. If you turn it on, RedLens records only that the
+extension activated and which of its own commands ran — never SQL, object names,
+endpoints, database names, AWS account identifiers, error messages, row counts or
+results. VS Code's own telemetry setting always wins: if that is off, RedLens
+sends nothing regardless.
+
+---
+
+## FAQ
+
+<details>
+<summary><strong>What happens when the 14-day trial ends?</strong></summary>
+
+Nothing breaks. The Pro features lock and everything in the Free column keeps
+working, forever, with no limits and no nag screens. Your connections, history,
+saved queries and notebooks are untouched.
+</details>
+
+<details>
+<summary><strong>Does the Free tier expire, or cap anything?</strong></summary>
+
+No, and no. Connections are never counted. History is never capped. Free is not a
+trial with a longer fuse — it is the product.
+</details>
+
+<details>
+<summary><strong>Do I need an account to try Pro?</strong></summary>
+
+No. No account, no credit card, no email. The trial starts the first time the
+extension activates.
+</details>
+
+<details>
+<summary><strong>How do I buy, and where does the key come from?</strong></summary>
+
+You buy on the RedLens site and the key arrives by email. Run **`RedLens: Manage
+Licence`** in VS Code and paste it. Purchase happens outside VS Code and outside
+the Marketplace.
+</details>
+
+<details>
+<summary><strong>Does it work offline, or inside a VPC with no internet egress?</strong></summary>
+
+Yes. Licence verification is offline — the extension holds the public half of the
+signing key. The only network traffic RedLens generates is to your own warehouse
+and, for Data API and CloudWatch features, to AWS endpoints you already reach.
+</details>
+
+<details>
+<summary><strong>What if I stop paying after a year or two?</strong></summary>
+
+Twelve months of uninterrupted payment earns you a perpetual licence to the last
+version released during your paid term — Pro features included. You stop
+receiving upgrades, support and security fixes, not the software you paid for.
+Below twelve months you revert to the Free tier, which never expires.
+</details>
+
+<details>
+<summary><strong>Does RedLens send my data anywhere?</strong></summary>
+
+No SQL, schema names, endpoints, results or errors ever leave your machine. See
+**Security and privacy** above.
+</details>
+
+---
+
+## Support
+
+<!-- TODO(diego): every link in this section needs the public presence to exist —
+     see the checklist below. `bugs.url` in package.json already points at
+     github.com/redlens-io/feedback, which must be CREATED (public, issues-only)
+     before publishing, or it 404s for every customer. -->
+
+- Bugs and feature requests: the public issue tracker linked under **Resources**
+  on this page.
+- Security reports: see `SECURITY.md`. Please do not open a public issue for a
+  security problem.
+- Billing and licensing: the contact on your purchase receipt.
+
+---
+
+## Licence
+
+RedLens is proprietary software. See the **License** tab on this page for the
+end-user licence agreement.
+
+Amazon Redshift, Amazon S3, AWS and CloudWatch are trademarks of Amazon.com, Inc.
+or its affiliates. RedLens is an independent product and is not affiliated with,
+endorsed by, or sponsored by Amazon Web Services.
+
+---
+
+<!--
+========================================================================
+PRE-PUBLISH CHECKLIST (delete this block before the first publish)
+========================================================================
+Blocking, in order. Nothing below is optional for a PAID listing.
+
+1. PUBLIC PRESENCE — everything else depends on it. Decision 2026-07-27: GitHub
+   Pages instead of a bought domain (free, HTTPS, no DNS; a custom domain can be
+   layered on later without breaking URLs).
+   a. Diego creates the `redlens-io` org — the ONE step the GitHub API cannot
+      do (~1 minute in the web UI: github.com/organizations/plan). Everything
+      below is then executed by Claude with the gh CLI:
+   b. Public repo `redlens-io/feedback` (issues only) — `bugs.url` already
+      points there.
+   c. Public repo `redlens-io/redlens-io.github.io` (GitHub Pages org site)
+      serving /pricing, /privacy (REQUIRED — BYOL offerings are NOT exempt),
+      /support, /eula, the public docs AND the listing images (hero +
+      screenshots) — which also solves the assets host.
+   `src/branding.ts` already points at these URLs; `tests/branding.test.ts`
+   fails if any of them regress to the private repo.
+
+2. MONETIZATION (Fase C) — `src/licensing/entitlement.ts` ships a PLACEHOLDER
+   Ed25519 public key, so no real licence key verifies. Publishing with
+   `"pricing": "Trial"` before this is selling a trial with no way to pay at
+   the end of it.
+
+3. MANIFEST — `homepage` set (Pages) and `version` at 0.9.0 (1.0.0 is reserved
+   for the release where a licence can actually be bought). Still open: decide
+   `qna` (public repo Discussions, or `false` if nobody will staff the tab) and
+   consider `galleryBanner`.
+
+4. LEGAL — have a lawyer review the clauses flagged at the end of LICENSE.md
+   before the first sale.
+
+5. Do NOT mention competing IDEs or editors, or availability on other
+   extension marketplaces, anywhere in this listing. The Marketplace
+   participation policies prohibit it (§3(b)).
+-->
