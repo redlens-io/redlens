@@ -115,3 +115,26 @@ describe('marketplace manifest', () => {
       .not.toContain('End User Licence Agreement');
   });
 });
+
+describe('packaging cannot be run from inside the workspace', () => {
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8')) as { scripts: Record<string, string> };
+
+  it('refuses instead of quietly packaging the monorepo', () => {
+    // The .vscodeignore allowlist is rooted at this package, so it says nothing
+    // about paths ABOVE it — and inside an npm workspace, vsce follows the
+    // hoisted root node_modules and walks up out of the package entirely.
+    // Measured before this guard existed: `vsce ls` here listed thousands of
+    // files from ../../node_modules, and the same command in the Pro package
+    // listed 8,456 including the internal plan, the lab scripts and the docs.
+    //
+    // Every other test in this file reads the .vscodeignore TEXT, and the text
+    // was correct the whole time. Only a real `vsce ls` sees this, which is why
+    // the guard has to live in the script rather than in an assertion.
+    // It must FAIL rather than run vsce. (The refusal message names vsce, so
+    // "does not mention vsce" would be the wrong assertion — what matters is
+    // that the script exits non-zero and points at the supported path.)
+    expect(pkg.scripts.package, 'the package script must fail, not package').toContain('process.exit(1)');
+    expect(pkg.scripts.package, 'it must point at the supported path').toContain('package-extension.sh');
+    expect(pkg.scripts.package, 'it must not actually invoke vsce').not.toMatch(/(^|[^-\w])vsce (package|ls)/);
+  });
+});

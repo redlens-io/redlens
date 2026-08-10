@@ -106,3 +106,44 @@ describe('the tier map survives the split', () => {
     expect(unclassified, `commands with no tier: ${unclassified.join(', ')}`).toEqual([]);
   });
 });
+
+describe('what the base contributes to VS Code', () => {
+  it('declares no chat participant', () => {
+    // The @redlens participant is Pro (PLAN.md §4) and its handler lives there.
+    // A declaration here breaks both paths at once, which is why it is worth a
+    // test rather than a comment: without Pro installed, VS Code lists the
+    // participant and nothing answers it; with Pro installed, the second
+    // registration is refused with "Agent already registered" and the feature
+    // does not work at all. Found by the bridge smoke test, which is the only
+    // thing that loads both extensions together.
+    const contributes = (pkg as unknown as { contributes: Record<string, unknown> }).contributes;
+    expect(contributes.chatParticipants, 'the chat participant belongs to the Pro package').toBeUndefined();
+  });
+});
+
+describe('the base declares only what it implements', () => {
+  it('declares no Pro command in its manifest', () => {
+    // A manifest declaration is a promise to VS Code that this extension
+    // provides the command. Declaring one it does not implement puts it in the
+    // Free user's Command Palette, where clicking it reaches "command not
+    // found" — and makes VS Code report a conflict the moment RedLens Pro is
+    // installed alongside.
+    //
+    // This regressed silently: the manifest was corrected during the split and
+    // a later `git checkout` of package.json during an unrelated revert brought
+    // eight of them back. The tier map is the authority, so the check derives
+    // from it rather than from a list that would need maintaining.
+    const leaked = [...declared].filter((id) => requiresPro(id));
+    expect(
+      leaked,
+      `the base declares Pro commands it cannot run: ${leaked.join(', ')}`,
+    ).toEqual([]);
+  });
+
+  it('still declares the Free commands it does implement', () => {
+    // The inverse, so the fix above can never be "declare nothing".
+    for (const id of ['redlens.runQuery', 'redlens.addConnection', 'redlens.showCluster', UPSELL_COMMAND]) {
+      expect(declared.has(id), `${id} must stay in the base manifest`).toBe(true);
+    }
+  });
+});

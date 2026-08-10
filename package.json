@@ -237,21 +237,6 @@
         "category": "RedLens"
       },
       {
-        "command": "redlens.showDashboard",
-        "title": "Performance Dashboard",
-        "category": "RedLens"
-      },
-      {
-        "command": "redlens.tableAdvisor",
-        "title": "Table Advisor",
-        "category": "RedLens"
-      },
-      {
-        "command": "redlens.monitoring",
-        "title": "Query & Load Monitoring",
-        "category": "RedLens"
-      },
-      {
         "command": "redlens.sessionsLocks",
         "title": "Sessions & Locks",
         "category": "RedLens"
@@ -281,32 +266,6 @@
       {
         "command": "redlens.scriptGrants",
         "title": "Script Grants",
-        "category": "RedLens"
-      },
-      {
-        "command": "redlens.explainPlanAI",
-        "title": "Explain Plan with AI",
-        "category": "RedLens"
-      },
-      {
-        "command": "redlens.optimizeQuery",
-        "title": "Optimize Query with AI",
-        "category": "RedLens"
-      },
-      {
-        "command": "redlens.nlToSql",
-        "title": "Generate SQL with AI",
-        "category": "RedLens"
-      },
-      {
-        "command": "redlens.describeObject",
-        "title": "Describe Table with AI",
-        "category": "RedLens",
-        "icon": "$(sparkle)"
-      },
-      {
-        "command": "redlens.fixLastError",
-        "title": "Fix Last Error with AI",
         "category": "RedLens"
       },
       {
@@ -437,21 +396,6 @@
           "command": "redlens.refreshCluster",
           "when": "view == redlensCluster",
           "group": "navigation"
-        },
-        {
-          "command": "redlens.showDashboard",
-          "when": "view == redlensExplorer",
-          "group": "1_performance"
-        },
-        {
-          "command": "redlens.tableAdvisor",
-          "when": "view == redlensExplorer",
-          "group": "1_performance"
-        },
-        {
-          "command": "redlens.monitoring",
-          "when": "view == redlensExplorer",
-          "group": "1_performance"
         },
         {
           "command": "redlens.sessionsLocks",
@@ -625,18 +569,6 @@
           "when": "false"
         },
         {
-          "command": "redlens.showDashboard",
-          "when": "false"
-        },
-        {
-          "command": "redlens.tableAdvisor",
-          "when": "false"
-        },
-        {
-          "command": "redlens.monitoring",
-          "when": "false"
-        },
-        {
           "command": "redlens.sessionsLocks",
           "when": "false"
         },
@@ -658,10 +590,6 @@
         },
         {
           "command": "redlens.scriptGrants",
-          "when": "false"
-        },
-        {
-          "command": "redlens.describeObject",
           "when": "false"
         },
         {
@@ -711,11 +639,6 @@
         {
           "command": "redlens.scriptGrants",
           "group": "2_write"
-        }
-      ],
-      "redlens.obj.ai": [
-        {
-          "command": "redlens.describeObject"
         }
       ]
     },
@@ -808,15 +731,6 @@
         ]
       }
     ],
-    "chatParticipants": [
-      {
-        "id": "redlens.chat",
-        "name": "redlens",
-        "fullName": "RedLens",
-        "description": "Ask about your Amazon Redshift schema, queries, and tuning",
-        "isSticky": true
-      }
-    ],
     "submenus": [
       {
         "id": "redlens.obj.scripting",
@@ -825,10 +739,6 @@
       {
         "id": "redlens.obj.governance",
         "label": "Governance"
-      },
-      {
-        "id": "redlens.obj.ai",
-        "label": "AI"
       }
     ]
   },
@@ -841,7 +751,7 @@
     "test:integration": "node esbuild.integration.mjs && node out-integration/runTest.js",
     "shots": "node esbuild.integration.mjs && node out-integration/runShots.js",
     "test:ui": "playwright test",
-    "package": "vsce package"
+    "package": "node -e \"console.error('Do not package from inside the workspace: vsce follows npm\\\\'s hoisted node_modules and packages the whole monorepo. Use scripts/package-extension.sh {base|pro} \u2014 it stages a standalone copy. See that script for what this prevented.'); process.exit(1)\""
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.700.0",

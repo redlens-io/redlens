@@ -120,8 +120,10 @@ describe('command palette scope (M9b6)', () => {
   });
 
   it('keeps the commands you reach for without leaving the keyboard', () => {
+    // nlToSql was on this list until the split; it is Pro now and lives in the
+    // other manifest. The rest are the verbs you type mid-task.
     for (const id of ['redlens.runQuery', 'redlens.explainQuery', 'redlens.showHistory',
-      'redlens.nlToSql', 'redlens.manageConnections', 'redlens.statusBarMenu']) {
+      'redlens.manageConnections', 'redlens.statusBarMenu']) {
       expect(visible, `${id} must stay in the palette`).toContain(id);
     }
   });

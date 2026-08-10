@@ -109,10 +109,13 @@ describe('command surface — naming scheme', () => {
     }
   });
 
-  it('AI commands share one suffix', () => {
+  it('has no AI commands left to name', () => {
+    // The "… with AI" suffix rule did not go away — it moved. All five AI
+    // commands are Pro now, and the rule is enforced against the Pro manifest
+    // in that package's own suite. What this asserts is the split itself: an
+    // AI command reappearing here would mean paid code came back.
     const ai = commands.filter((c) => /\bAI\b/.test(c.title));
-    expect(ai.length).toBeGreaterThanOrEqual(5);
-    for (const c of ai) expect(c.title, c.command).toMatch(/ with AI$/);
+    expect(ai.map((c) => c.command), 'AI is Pro — these belong in the other manifest').toEqual([]);
   });
 });
 
