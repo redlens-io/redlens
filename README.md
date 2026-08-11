@@ -7,12 +7,6 @@ warnings — and hand the same connections to Copilot or Claude without wiring u
 thing. Built for data engineers, analytics engineers and anyone who lives in
 Redshift and would rather not live in a browser tab.
 
-<!-- TODO(diego): HERO GIF — the single highest-leverage element on this page.
-     10-15 seconds: Demo mode -> run a query -> grid -> an EXPLAIN DS_BCAST
-     warning firing. The old blocker is gone: this repository is public now, so
-     a raw.githubusercontent.com URL works. Still must be an absolute https://
-     URL, and PNG or GIF — the Marketplace rejects SVG in README.md. -->
-
 ---
 
 ## Open source
@@ -105,11 +99,6 @@ Two commitments that come with paying:
   keep**, permanently, Pro features included. You stop getting upgrades and
   support, not the software.
 
-<!-- TODO(diego): the pricing page must exist before publishing — see the
-     checklist at the bottom of this file. Also blocked on it: the extension
-     still ships a PLACEHOLDER Ed25519 public key, so no real licence key can
-     verify yet. Do not publish until the real key is in. -->
-
 ---
 
 ## Why RedLens
@@ -189,13 +178,6 @@ file.
 Read-only mode. A production safeguard that makes you confirm before a write
 against a cluster you have flagged as production. PII-safe masking. These are
 free forever and, by design, cannot be moved to Pro.
-
-<!-- TODO(diego): SCREENSHOTS. 45 PNGs exist in the repo but it is PRIVATE, so
-     relative paths render broken on the Marketplace. Once the public assets host
-     exists, embed 4-6 absolute-https images, one per feature section. Strongest:
-       03-editor-sql.png, 05-explain-plan.png, 06-dashboard.png,
-       37-cloudwatch-metrics.png, 33-tools-view.png, 39-cluster-parameters.png
-     PNG only — the Marketplace rejects SVG images in README.md. -->
 
 ### Performance Dashboard `Pro`
 CloudWatch infrastructure metrics next to query activity, and the RPU cost of the
@@ -346,11 +328,6 @@ No SQL, schema names, endpoints, results or errors ever leave your machine. See
 
 ## Support
 
-<!-- TODO(diego): every link in this section needs the public presence to exist —
-     see the checklist below. `bugs.url` in package.json already points at
-     github.com/redlens-io/feedback, which must be CREATED (public, issues-only)
-     before publishing, or it 404s for every customer. -->
-
 - Bugs and feature requests: the public issue tracker linked under **Resources**
   on this page.
 - Security reports: see `SECURITY.md`. Please do not open a public issue for a
@@ -361,8 +338,8 @@ No SQL, schema names, endpoints, results or errors ever leave your machine. See
 
 ## Licence
 
-RedLens is proprietary software. See the **License** tab on this page for the
-end-user licence agreement.
+This extension is open source under the [MIT licence](LICENSE.md). RedLens Pro
+is a separate, commercial extension with its own end-user licence agreement.
 
 Amazon Redshift, Amazon S3, AWS and CloudWatch are trademarks of Amazon.com, Inc.
 or its affiliates. RedLens is an independent product and is not affiliated with,
@@ -370,41 +347,3 @@ endorsed by, or sponsored by Amazon Web Services.
 
 ---
 
-<!--
-========================================================================
-PRE-PUBLISH CHECKLIST (delete this block before the first publish)
-========================================================================
-Blocking, in order. Nothing below is optional for a PAID listing.
-
-1. PUBLIC PRESENCE — everything else depends on it. Decision 2026-07-27: GitHub
-   Pages instead of a bought domain (free, HTTPS, no DNS; a custom domain can be
-   layered on later without breaking URLs).
-   a. Diego creates the `redlens-io` org — the ONE step the GitHub API cannot
-      do (~1 minute in the web UI: github.com/organizations/plan). Everything
-      below is then executed by Claude with the gh CLI:
-   b. Public repo `redlens-io/feedback` (issues only) — `bugs.url` already
-      points there.
-   c. Public repo `redlens-io/redlens-io.github.io` (GitHub Pages org site)
-      serving /pricing, /privacy (REQUIRED — BYOL offerings are NOT exempt),
-      /support, /eula, the public docs AND the listing images (hero +
-      screenshots) — which also solves the assets host.
-   `src/branding.ts` already points at these URLs; `tests/branding.test.ts`
-   fails if any of them regress to the private repo.
-
-2. MONETIZATION (Fase C) — `src/licensing/entitlement.ts` ships a PLACEHOLDER
-   Ed25519 public key, so no real licence key verifies. Publishing with
-   `"pricing": "Trial"` before this is selling a trial with no way to pay at
-   the end of it.
-
-3. MANIFEST — `homepage` set (Pages) and `version` at 0.9.0 (1.0.0 is reserved
-   for the release where a licence can actually be bought). Still open: decide
-   `qna` (public repo Discussions, or `false` if nobody will staff the tab) and
-   consider `galleryBanner`.
-
-4. LEGAL — have a lawyer review the clauses flagged at the end of LICENSE.md
-   before the first sale.
-
-5. Do NOT mention competing IDEs or editors, or availability on other
-   extension marketplaces, anywhere in this listing. The Marketplace
-   participation policies prohibit it (§3(b)).
--->
