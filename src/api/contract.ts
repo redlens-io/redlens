@@ -15,7 +15,7 @@
  * How Pro gets hold of this:
  *
  * ```ts
- * const base = vscode.extensions.getExtension<RedLensExports>('redlens.redlens');
+ * const base = vscode.extensions.getExtension<RedLensExports>('lensql.redlens');
  * // extensionDependencies guarantees the base is already active — no polling,
  * // no race. If it is missing, the user disabled it; say so and stand down.
  * const api = base?.exports.getApi(1);

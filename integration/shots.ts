@@ -23,7 +23,7 @@ function sleep(ms: number): Promise<void> {
 }
 
 export async function run(): Promise<void> {
-  const ext = vscode.extensions.getExtension('redlens.redlens');
+  const ext = vscode.extensions.getExtension('lensql.redlens');
   if (ext === undefined) {
     throw new Error('extension not found');
   }
@@ -201,7 +201,7 @@ export async function run(): Promise<void> {
   //     the Fase O split, and this runner loads only the base extension.
 
   // 9) Get Started walkthrough.
-  await vscode.commands.executeCommand('workbench.action.openWalkthrough', 'redlens.redlens#redlens.getStarted');
+  await vscode.commands.executeCommand('workbench.action.openWalkthrough', 'lensql.redlens#redlens.getStarted');
   await sleep(2500);
   capture('09-walkthrough.png');
 

@@ -36,7 +36,7 @@ export const SUPPORT_URL = `${SITE_URL}/support`;
  * The base never imports Pro's code, but it does have to be able to point at
  * it: a padlock the user cannot act on is worse than no padlock at all. This
  * is the only knowledge of Pro the open extension carries — an id and a URL. */
-export const PRO_EXTENSION_ID = 'redlens.redlens-pro';
+export const PRO_EXTENSION_ID = 'lensql.redlens-pro';
 export const PRO_MARKETPLACE_URL = `https://marketplace.visualstudio.com/items?itemName=${PRO_EXTENSION_ID}`;
 
 /** The private repository — RedLens Pro's source and the project's archive.

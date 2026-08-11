@@ -5,8 +5,8 @@ import * as vscode from 'vscode';
 // MANUAL-STEPS #1: extension loads, activates, and its palette commands exist
 // and execute without throwing.
 export async function run(): Promise<void> {
-  const ext = vscode.extensions.getExtension('redlens.redlens');
-  assert.ok(ext, 'extension redlens.redlens not found in the development host');
+  const ext = vscode.extensions.getExtension('lensql.redlens');
+  assert.ok(ext, 'extension lensql.redlens not found in the development host');
 
   await ext.activate();
   assert.ok(ext.isActive, 'extension failed to activate');
