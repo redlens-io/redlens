@@ -6,6 +6,16 @@ extension's Marketplace page.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 the project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] — 2026-08-17
+
+**Adds the missing way to start the Pro trial.** This page described the 14-day
+trial and the Free/Pro split in detail, and then never linked to the extension
+that starts it — the only clickable path led to the checkout, which skips a free
+trial that needs no card and no account. Both places that mention RedLens Pro now
+link to it.
+
+Documentation only. No functional changes.
+
 ## [1.0.5] — 2026-08-14
 
 Corrects where your licence key actually is. Your receipt arrives by email with

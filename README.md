@@ -50,9 +50,11 @@ cost of the window you are looking at.
 below as free is in this repository — you can read it, build it, fork it, and
 use it commercially without asking anyone.
 
-RedLens is open core. There is a second, paid extension — **RedLens Pro** — that
-adds warehouse-specific advice, the Redshift console, AI grounded in your schema
-and governance administration. It is closed source and it is a separate install.
+RedLens is open core. There is a second, paid extension —
+**[RedLens Pro](https://marketplace.visualstudio.com/items?itemName=lensql.redlens-pro)** —
+that adds warehouse-specific advice, the Redshift console, AI grounded in your
+schema and governance administration. It is closed source and it is a separate
+install.
 
 Three things worth saying plainly, because open core has a reputation and it was
 earned:
@@ -111,6 +113,11 @@ is never capped.
 **Every install starts with 14 days of full Pro. No credit card. No account. No
 sign-up.** The trial begins on first activation. When it ends nothing breaks —
 the Pro features lock, everything else keeps working forever.
+
+To start the trial, install
+**[RedLens Pro](https://marketplace.visualstudio.com/items?itemName=lensql.redlens-pro)**
+— it adds itself to this extension. There is nothing to buy first and nothing to
+sign up for.
 
 > **Our promise: nothing that ships Free ever moves to Pro.** New Pro features
 > are new features, never features you already had.
