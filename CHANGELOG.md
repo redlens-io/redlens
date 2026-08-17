@@ -6,6 +6,68 @@ extension's Marketplace page.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 the project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] — 2026-08-14
+
+Corrects where your licence key actually is. Your receipt arrives by email with
+an **Access purchase** button, and the key is on the page it opens, under
+*Benefit Grants* — it is not inside the email itself. It is also in your account
+at lensql.dev/account at any time. Earlier wording sent buyers hunting through
+their inbox for something that was never sent there.
+
+## [1.0.4] — 2026-08-14
+
+The store page now shows the product before describing it: a short looping
+animation at the top — connect, query, read the results, read the plan, and the
+grid with personal data masked by default — plus a new image for the governance
+tree beside the grants on a table, including column-level ones and RBAC roles.
+
+Nothing in the extension itself changed.
+
+## [1.0.3] — 2026-08-14
+
+### Buying, and everything around it
+
+- **Buy a licence** is an action on every padlock and in
+  `RedLens: Manage Licence`, and both listings link straight to checkout. Your
+  key arrives by email; paste it with `RedLens: Manage Licence`.
+- **Cancelling is a button** in the customer portal, reachable from
+  `RedLens: Manage Licence` and from the pricing page — along with invoices,
+  payment method, seats and machine activations. No notice period, and you keep
+  Pro until the end of the term you paid for.
+- **Team is $79 per seat per year**, minimum five seats. Pro is $99 per person
+  per year. The prices shown here are the prices charged at checkout.
+
+### The trial
+
+- **The days remaining are in the status bar**, so you can see them without
+  going looking. The badge turns amber for the last three days and opens the
+  licence screen when clicked.
+- **The count follows the calendar** while the editor stays open, and shows the
+  date the trial ends: *"Pro trial — 12 days left (until Aug 26)"*.
+- **When the trial ends you are told once**, with what still works, instead of
+  finding out from a padlock.
+
+### Links
+
+- Every link in the extension, the listing images and the licence terms point at
+  `lensql.dev`, served over HTTPS with no intermediate hop.
+
+## [1.0.0] — 2026-08-12
+
+First public release. The open extension is complete and MIT-licensed: four ways
+to connect, the catalog explorer, the SQL editor with schema-aware completion,
+the results grid with filtering, charts, transpose and export, plan reading, the
+governance tree, and the MCP server that hands your connections to Copilot or
+Claude.
+
+**Every safety feature is here and always will be** — read-only mode, the
+production safeguard, transaction control and PII-safe masking are not paid
+features and never become paid features.
+
+Optional paid features live in a separate extension, **RedLens Pro**, so this
+package stays open and complete on its own. What is behind the padlock and why is
+listed on the pricing page; the tier map is public.
+
 ## [0.9.0] — 2026-07-27
 
 Feature-complete and validated — M1 through M10, 595 automated tests, an

@@ -1,10 +1,10 @@
 {
   "name": "redlens",
-  "displayName": "RedLens \u2014 SQL IDE & MCP for Amazon Redshift",
+  "displayName": "RedLens — SQL IDE & MCP for Amazon Redshift",
   "description": "Redshift-native SQL IDE for VS Code: Data API and direct connections, schema explorer, query results, and an embedded MCP server for AI agents.",
-  "version": "0.9.0",
+  "version": "1.0.5",
   "publisher": "lensql",
-  "homepage": "https://redlens-io.github.io",
+  "homepage": "https://lensql.dev",
   "license": "MIT",
   "pricing": "Free",
   "icon": "media/icon.png",
@@ -353,7 +353,7 @@
           {
             "id": "connect",
             "title": "Connect (or try Demo)",
-            "description": "Four ways to connect \u2014 or pick Demo for a zero-credential sample warehouse.\n[Add a Connection](command:redlens.addConnection)",
+            "description": "Four ways to connect — or pick Demo for a zero-credential sample warehouse.\n[Add a Connection](command:redlens.addConnection)",
             "media": {
               "markdown": "media/walkthrough/connect.md"
             }
@@ -674,7 +674,7 @@
         "redlens.piiSafeMode": {
           "type": "boolean",
           "default": false,
-          "description": "PII-safe mode: mask the columns in redlens.piiColumns in the grid, exports, and \u2014 importantly \u2014 before results reach the embedded MCP server, so AI agents never see raw PII."
+          "description": "PII-safe mode: mask the columns in redlens.piiColumns in the grid, exports, and — importantly — before results reach the embedded MCP server, so AI agents never see raw PII."
         },
         "redlens.piiColumns": {
           "type": "array",
@@ -700,7 +700,7 @@
         "redlens.telemetry.enabled": {
           "type": "boolean",
           "default": false,
-          "description": "Send anonymous usage telemetry (which RedLens commands are used). Off by default: there is no telemetry backend yet, so leaving it on would show an \"uses online services\" notice for data that goes nowhere. Never includes SQL, object names, endpoints, error messages or results. VS Code\u2019s global telemetry setting always takes precedence: if it is off, RedLens sends nothing regardless of this.",
+          "description": "Send anonymous usage telemetry (which RedLens commands are used). Off by default: there is no telemetry backend yet, so leaving it on would show an \"uses online services\" notice for data that goes nowhere. Never includes SQL, object names, endpoints, error messages or results. VS Code’s global telemetry setting always takes precedence: if it is off, RedLens sends nothing regardless of this.",
           "tags": [
             "telemetry",
             "usesOnlineServices"
@@ -750,8 +750,9 @@
     "test:watch": "vitest",
     "test:integration": "node esbuild.integration.mjs && node out-integration/runTest.js",
     "shots": "node esbuild.integration.mjs && node out-integration/runShots.js",
+    "hero": "node esbuild.integration.mjs && node out-integration/runHero.js",
     "test:ui": "playwright test",
-    "package": "node -e \"console.error('Do not package from inside the workspace: vsce follows npm\\\\'s hoisted node_modules and packages the whole monorepo. Use scripts/package-extension.sh {base|pro} \u2014 it stages a standalone copy. See that script for what this prevented.'); process.exit(1)\""
+    "package": "node -e \"console.error('Do not package from inside the workspace: vsce follows npm\\\\'s hoisted node_modules and packages the whole monorepo. Use scripts/package-extension.sh {base|pro} — it stages a standalone copy. See that script for what this prevented.'); process.exit(1)\""
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "^3.700.0",

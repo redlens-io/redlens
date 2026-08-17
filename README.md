@@ -7,7 +7,42 @@ warnings — and hand the same connections to Copilot or Claude without wiring u
 thing. Built for data engineers, analytics engineers and anyone who lives in
 Redshift and would rather not live in a browser tab.
 
+![RedLens in use: the warehouse in the explorer, a query in the SQL editor, results in the grid with a foreign key marked, an execution plan warning about a broadcast join and how to fix it, and the grid again with personal data masked by default](https://lensql.dev/img/listing/hero.gif)
+
 ---
+
+## What it looks like
+
+**The editor and the catalog** — completion from your live schema, and results
+you can filter, chart, transpose and export without leaving the tab.
+
+![The RedLens SQL editor with schema-aware completion](https://lensql.dev/img/listing/editor.png)
+
+**The Table Optimization Advisor** *(Pro)* — distribution skew, unsorted blocks,
+stale statistics and AWS's own recommendations, each with the SQL that fixes it.
+
+![Table Optimization Advisor showing skew, unsorted percentage and stale statistics with remedial SQL](https://lensql.dev/img/listing/table-advisor.png)
+
+**Plans with warehouse-aware warnings** — the parts of a plan that cost you
+money, named.
+
+![An EXPLAIN plan annotated with warehouse-aware warnings](https://lensql.dev/img/listing/explain-plan.png)
+
+**PII-safe mode** — columns that look like personal data are masked until you
+ask, so a screen-share or a pairing session is not an incident.
+
+![Result grid with an email column masked and marked PII](https://lensql.dev/img/listing/pii-safe-mode.png)
+
+**Datashares, users, roles and policies in the tree** — and, per object, who can
+do what. Column-level grants and RBAC roles included, which is where the other
+clients stop.
+
+![The RedLens explorer showing datashares, users and roles and security policies, beside a panel listing the grants on a table including a column-level grant to an RBAC role](https://lensql.dev/img/listing/governance.png)
+
+**What the warehouse is costing you** *(Pro)* — CloudWatch metrics with the RPU
+cost of the window you are looking at.
+
+![CloudWatch metrics with RPU cost for the selected window](https://lensql.dev/img/listing/cost-metrics.png)
 
 ## Open source
 
@@ -82,15 +117,19 @@ the Pro features lock, everything else keeps working forever.
 
 ### Price
 
-- **Pro — $99 per user / year.** Early adopters: **$79 for the first year.**
-- **Team — $199 per user / year**, minimum 5 seats.
+- **Pro — $99 per person / year.** → **[Buy RedLens Pro](https://lensql.dev/buy)**
+- **Team — $79 per seat / year**, minimum 5 seats. → **[Buy Team seats](https://lensql.dev/buy/team)**
 - Enterprise — on request.
 
 **Licences are bought outside VS Code and outside the Visual Studio Marketplace.**
-You purchase a key on the RedLens site, receive it by email, and paste it into VS
-Code with **`RedLens: Manage Licence`**. There is no account to create and no
-RedLens server to talk to: keys are verified **offline** against a public key
-embedded in the extension.
+You buy on the [RedLens site](https://lensql.dev/pricing), receive the key by
+email, and paste it into VS Code with **`RedLens: Manage Licence`**. There is no
+account to create and no RedLens server to talk to: keys are verified **offline**
+against a public key embedded in the extension.
+
+**Cancelling is a button**, in the [customer portal](https://lensql.dev/account) —
+no email to us, no notice period, and you keep Pro until the end of the term you
+paid for. Invoices, payment method, seats and machine activations live there too.
 
 Two commitments that come with paying:
 
@@ -295,9 +334,14 @@ extension activates.
 <details>
 <summary><strong>How do I buy, and where does the key come from?</strong></summary>
 
-You buy on the RedLens site and the key arrives by email. Run **`RedLens: Manage
-Licence`** in VS Code and paste it. Purchase happens outside VS Code and outside
-the Marketplace.
+Buy it here — **[RedLens Pro, $99/year](https://lensql.dev/buy)** or
+**[Team seats, $79/seat/year](https://lensql.dev/buy/team)**. Your receipt
+arrives by email with an **Access purchase** button; the key is on the page it
+opens, under *Benefit Grants*, and in your
+[account](https://lensql.dev/account) at any time. Run
+**`RedLens: Manage Licence`** in VS Code and paste it. Purchase happens outside
+VS Code and outside the Marketplace, so nothing about it depends on the
+Marketplace knowing you paid.
 </details>
 
 <details>

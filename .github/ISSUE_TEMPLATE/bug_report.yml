@@ -10,7 +10,7 @@ body:
         - **RedLens Pro** (dashboard, advisor, monitoring, AI, the console
           sections, governance admin) is a different extension and is not in
           this repository — customer support for it is at
-          <https://redlens-io.github.io/support>.
+          <https://lensql.dev/support>.
         - **Never paste credentials, endpoints or real query results here.**
           This is a public issue tracker. Redact anything that identifies your
           warehouse; a schema shape is almost always enough to reproduce.

@@ -4,6 +4,9 @@ import { ProState } from './licensing/proState';
 import { ContributionRegistry } from './api/contributions';
 import { createRedLensExports } from './api/redLensApi';
 import { registerProUpsell } from './commands/proUpsell';
+import { Telemetry, declaredCommandIds } from './telemetry/telemetry';
+import { WorkerTelemetrySender } from './telemetry/sender';
+import { TELEMETRY_URL } from './branding';
 import type { RedLensExports } from './api/contract';
 import { ConnectionStore } from './connections/connectionStore';
 import { ConnectionManager } from './connections/connectionManager';
@@ -50,6 +53,24 @@ export function activate(context: vscode.ExtensionContext): RedLensExports {
   // package, and this extension no longer contains any of it.
   installLicenseGate(pro);
   registerProUpsell(context, pro);
+
+  // Telemetry (D3/C4). The gate is inside `Telemetry`, which reads BOTH the
+  // global preference and the RedLens setting live on every send — so an opt-out
+  // takes effect immediately and `--disable-telemetry`, which never appears in
+  // configuration, is honoured too.
+  const telemetry = new Telemetry(
+    declaredCommandIds(context.extension.packageJSON),
+    new WorkerTelemetrySender(TELEMETRY_URL),
+  );
+  context.subscriptions.push(telemetry);
+  telemetry.send('activate');
+  // The top of the funnel: the FIRST activation on this machine, ever. Recorded
+  // in globalState rather than counted, so a reinstall does not read as a new
+  // install and inflate the denominator.
+  if (context.globalState.get<boolean>('redlens.installed') !== true) {
+    void context.globalState.update('redlens.installed', true);
+    telemetry.send('install');
+  }
 
   const store = new ConnectionStore(context.secrets);
   // Bastion host keys are public data that must survive and stay inspectable,

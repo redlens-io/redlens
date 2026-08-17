@@ -6,6 +6,8 @@ await esbuild.build({
     suite: 'integration/suite.ts',
     runShots: 'integration/runShots.ts',
     shots: 'integration/shots.ts',
+    runHero: 'integration/runHero.ts',
+    hero: 'integration/hero.ts',
   },
   bundle: true,
   outdir: 'out-integration',

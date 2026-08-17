@@ -13,13 +13,47 @@
  * not because we are careful, but because there is nowhere to put it.
  */
 
-export type TelemetryEventName = 'activate' | 'command';
+/**
+ * The funnel D3 asks for — install → trial → activation → purchase — plus the
+ * two operational events that were already here.
+ *
+ * Every one of these is a COUNT with no free text. "How many people who
+ * installed started a trial, and how many of those activated a licence" is
+ * answerable from names alone; nothing about WHO, WHAT they queried, or WHERE
+ * their warehouse is can be reconstructed from any of it.
+ */
+export type TelemetryEventName =
+  | 'activate'
+  | 'command'
+  /** First ever activation on this machine — the top of the funnel. */
+  | 'install'
+  /** The 14-day trial began. */
+  | 'trial-started'
+  /** A licence key verified successfully. The bottom of the funnel: a purchase
+   *  that Polar recorded is not the same as one that WORKED on a machine, and
+   *  the gap between those two numbers is the only way to see a broken
+   *  activation path before customers report it. */
+  | 'licence-activated';
 
 /** Property names permitted per event. Anything else is dropped. */
 const ALLOWED_PROPERTIES: Record<TelemetryEventName, readonly string[]> = {
   activate: [],
   command: ['id'],
+  install: [],
+  'trial-started': [],
+  // The PLAN only — never the email, the key, the seat count or the machine id.
+  // Knowing that Team licences activate is useful; knowing whose is not.
+  'licence-activated': ['plan'],
 };
+
+/** The only values `licence-activated.plan` may carry. */
+const ALLOWED_PLANS = new Set(['pro', 'team', 'enterprise']);
+
+/** Narrows an arbitrary string to the catalogue, so the check and the type
+ *  agree — a name that passes here is one the allowlist has an entry for. */
+function isKnownEvent(name: string): name is TelemetryEventName {
+  return Object.prototype.hasOwnProperty.call(ALLOWED_PROPERTIES, name);
+}
 
 export interface SanitizedEvent {
   name: TelemetryEventName;
@@ -39,7 +73,7 @@ export function sanitizeEvent(
   properties: Record<string, unknown> | undefined,
   knownCommandIds: ReadonlySet<string>,
 ): SanitizedEvent | undefined {
-  if (name !== 'activate' && name !== 'command') {
+  if (!isKnownEvent(name)) {
     return undefined;
   }
   const allowed = ALLOWED_PROPERTIES[name];
@@ -52,6 +86,9 @@ export function sanitizeEvent(
     }
     if (name === 'command' && key === 'id' && !knownCommandIds.has(value)) {
       return undefined; // not one of our commands — never forward it
+    }
+    if (name === 'licence-activated' && key === 'plan' && !ALLOWED_PLANS.has(value)) {
+      return undefined; // the plan is a closed set; anything else is not ours
     }
     out[key] = value;
   }

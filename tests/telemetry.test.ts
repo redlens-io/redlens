@@ -66,3 +66,43 @@ describe('telemetry allowlist', () => {
     expect(NEVER_SENT).toContain('error messages');
   });
 });
+
+// ---------------------------------------------------------------------------
+// C4 — the funnel, and the guarantee that matters more than the funnel.
+// ---------------------------------------------------------------------------
+
+describe('the funnel events D3 asks for', () => {
+  const NO_COMMANDS = new Set<string>();
+
+  it('accepts each funnel event', () => {
+    for (const name of ['install', 'trial-started'] as const) {
+      expect(sanitizeEvent(name, undefined, NO_COMMANDS)?.name, name).toBe(name);
+    }
+    expect(sanitizeEvent('licence-activated', { plan: 'team' }, NO_COMMANDS)?.properties)
+      .toEqual({ plan: 'team' });
+  });
+
+  it('carries the plan and nothing else on an activation', () => {
+    // Knowing that Team licences activate is useful. Knowing WHOSE is not, and
+    // there is deliberately nowhere in the payload to put it.
+    for (const leak of [
+      { plan: 'pro', email: 'someone@example.com' },
+      { plan: 'pro', machineId: 'abc123' },
+      { plan: 'pro', key: 'REDLENS-XXXX' },
+      { plan: 'pro', seats: '5' },
+    ]) {
+      expect(sanitizeEvent('licence-activated', leak, NO_COMMANDS), JSON.stringify(leak)).toBeUndefined();
+    }
+  });
+
+  it('refuses a plan that is not one of the three we sell', () => {
+    // The plan is a closed set. A free-text value here would be the one string
+    // field in the whole payload, which is exactly how a leak starts.
+    expect(sanitizeEvent('licence-activated', { plan: 'tickit.sales' }, NO_COMMANDS)).toBeUndefined();
+    expect(sanitizeEvent('licence-activated', { plan: '' }, NO_COMMANDS)).toBeUndefined();
+  });
+
+  it('still refuses an event name it was never told about', () => {
+    expect(sanitizeEvent('query-executed', { sql: 'SELECT 1' }, NO_COMMANDS)).toBeUndefined();
+  });
+});

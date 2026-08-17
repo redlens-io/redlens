@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { ISSUES_URL, PRICING_URL, PRIVATE_REPO_URL, SITE_URL, SUPPORT_URL } from '../src/branding';
+import { PRO_DIR } from './monorepo';
 
 /**
  * A published extension must not link anywhere its own users cannot reach
@@ -51,15 +52,33 @@ describe('user-facing links', () => {
   });
 
   it('keeps the manifest support links off the private repo', () => {
-    const pkg = JSON.parse(readFileSync('package.json', 'utf8')) as {
-      bugs?: { url?: string };
-      homepage?: string;
-      qna?: string | false;
-    };
-    // `repository` may legitimately stay private — vsce only uses it for the
-    // source link, and a private one simply does not render. `bugs` is
-    // different: it is the support link the Marketplace shows to users.
-    expect(pkg.bugs?.url ?? '', 'bugs.url must be a tracker users can open').not.toContain('dborjan/redlens');
+    // Pro's manifest is checked here too, because this is the guard that made
+    // the paid listing stop pointing buyers at a 404 — but it only exists in
+    // the monorepo. See ./monorepo.ts.
+    const manifests = ['package.json', ...(PRO_DIR ? [join(PRO_DIR, 'package.json')] : [])];
+    for (const manifest of manifests) {
+      const pkg = JSON.parse(readFileSync(manifest, 'utf8')) as {
+        bugs?: { url?: string };
+        homepage?: string;
+        repository?: { url?: string } | string;
+        qna?: string | false;
+      };
+      expect(pkg.bugs?.url ?? '', `${manifest}: bugs.url must be a tracker users can open`)
+        .not.toContain('dborjan/redlens');
+
+      // `repository` too, and this one was learned the expensive way. The note
+      // that used to sit here said a private repository "simply does not
+      // render", so it was left unchecked — and the Marketplace rendered it
+      // anyway, as a "Project Details" link on the PAID listing, pointing every
+      // buyer who clicked it at a 404.
+      //
+      // A closed extension answers this by omitting the field, not by naming
+      // the open repository: its source is not there either, and a link that
+      // lies politely is still a link that lies.
+      const repo = typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url ?? '';
+      expect(repo, `${manifest}: repository must be omitted or public — the Marketplace renders it`)
+        .not.toContain('dborjan/redlens');
+    }
   });
 });
 
