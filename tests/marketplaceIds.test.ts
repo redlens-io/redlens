@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PRO_DIR } from './monorepo';
+import { PRO_EXTENSION_ID } from '../src/branding';
 
 /**
  * Every Marketplace link in shipped documentation points at an extension that
@@ -57,14 +58,36 @@ function shippedDocs(pkgDir: string): string[] {
     .filter((f) => existsSync(f));
 }
 
-const known = new Set<string>([idOf(BASE_DIR), ...(PRO_DIR ? [idOf(PRO_DIR)] : [])]);
+/**
+ * Pro's id comes from `src/branding.ts`, not from Pro's manifest.
+ *
+ * This package has two lives, and in the public MIT mirror there IS no Pro
+ * manifest — but base's README still links to Pro's store page, deliberately,
+ * because that is where the free trial starts. Deriving the id only from
+ * manifests made the mirror's CI reject a link that is correct, public and
+ * intentional. It failed on the very first tag-driven release.
+ *
+ * `PRO_EXTENSION_ID` is base's own declaration of what Pro is called; it is what
+ * the in-editor upsell already resolves, and it ships in both repositories. That
+ * makes it the right source, and it sharpens the test: prose in the README now
+ * has to agree with the constant the CODE uses, which is exactly the agreement
+ * that was broken when Pro's README said `redlens.redlens`.
+ */
+const known = new Set<string>([idOf(BASE_DIR), PRO_EXTENSION_ID]);
 const docs = [...shippedDocs(BASE_DIR), ...(PRO_DIR ? shippedDocs(PRO_DIR) : [])];
 
 describe('Marketplace links in shipped docs', () => {
   it('knows which extension ids exist', () => {
     // If this ever reads an empty set, every assertion below passes vacuously.
-    expect(known.size).toBeGreaterThanOrEqual(1);
+    expect(known.size).toBeGreaterThanOrEqual(2);
     expect([...known].every((id) => /^[\w-]+\.[\w-]+$/.test(id))).toBe(true);
+  });
+
+  // Only checkable where both halves are present — and worth checking, because
+  // the whole point of sourcing the id from branding.ts is that it is the same
+  // id Pro actually publishes under.
+  it.runIf(PRO_DIR !== null)('branding.ts agrees with Pro\'s own manifest', () => {
+    expect(PRO_EXTENSION_ID).toBe(idOf(PRO_DIR!));
   });
 
   for (const doc of docs) {
