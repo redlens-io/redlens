@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import { ISSUES_URL, PRICING_URL, PRIVATE_REPO_URL, SITE_URL, SUPPORT_URL } from '../src/branding';
+import {
+  ISSUES_URL,
+  PRICING_URL,
+  PRIVATE_REPO_PATHS,
+  PRIVATE_REPO_URL,
+  SITE_URL,
+  SUPPORT_URL,
+} from '../src/branding';
 import { PRO_DIR } from './monorepo';
 
 /**
@@ -30,7 +37,7 @@ const sources = [...walk('src'), ...walk('webview')].filter((s) => !s.file.inclu
 describe('user-facing links', () => {
   it('never sends a user to the private code repository', () => {
     const leaking = sources
-      .filter((s) => s.text.includes('github.com/dborjan/redlens'))
+      .filter((s) => PRIVATE_REPO_PATHS.some((p) => s.text.includes(`github.com/${p}`)))
       .map((s) => s.file);
     expect(leaking, `these link users at the private repo: ${leaking.join(', ')}`).toEqual([]);
   });
@@ -63,8 +70,10 @@ describe('user-facing links', () => {
         repository?: { url?: string } | string;
         qna?: string | false;
       };
-      expect(pkg.bugs?.url ?? '', `${manifest}: bugs.url must be a tracker users can open`)
-        .not.toContain('dborjan/redlens');
+      for (const path of PRIVATE_REPO_PATHS) {
+        expect(pkg.bugs?.url ?? '', `${manifest}: bugs.url must be a tracker users can open`)
+          .not.toContain(path);
+      }
 
       // `repository` too, and this one was learned the expensive way. The note
       // that used to sit here said a private repository "simply does not
@@ -76,8 +85,10 @@ describe('user-facing links', () => {
       // the open repository: its source is not there either, and a link that
       // lies politely is still a link that lies.
       const repo = typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url ?? '';
-      expect(repo, `${manifest}: repository must be omitted or public — the Marketplace renders it`)
-        .not.toContain('dborjan/redlens');
+      for (const path of PRIVATE_REPO_PATHS) {
+        expect(repo, `${manifest}: repository must be omitted or public — the Marketplace renders it`)
+          .not.toContain(path);
+      }
     }
   });
 });
@@ -91,9 +102,14 @@ describe('branding constants', () => {
 
   it('do not accidentally point at the private repo themselves', () => {
     for (const url of [SITE_URL, PRICING_URL, ISSUES_URL, SUPPORT_URL]) {
-      expect(url).not.toContain('dborjan/redlens');
+      for (const path of PRIVATE_REPO_PATHS) {
+        expect(url).not.toContain(path);
+      }
     }
     // Named only so the guard above has something to forbid.
-    expect(PRIVATE_REPO_URL).toContain('dborjan/redlens');
+    expect(PRIVATE_REPO_URL).toContain('lensql/redlens');
+    // And the retired name stays on the list: GitHub still redirects it, so a
+    // link written before the move lands on the same 404 as one written now.
+    expect(PRIVATE_REPO_PATHS).toContain('dborjan/redlens');
   });
 });

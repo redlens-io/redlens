@@ -6,6 +6,7 @@
   "publisher": "lensql",
   "homepage": "https://lensql.dev",
   "license": "MIT",
+  "qna": "https://github.com/redlens-io/redlens/issues",
   "pricing": "Free",
   "icon": "media/icon.png",
   "repository": {

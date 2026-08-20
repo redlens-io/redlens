@@ -85,4 +85,13 @@ export const PRO_MARKETPLACE_URL = `https://marketplace.visualstudio.com/items?i
  * Exported ONLY so the guard test can name the thing it forbids: a user who
  * clicks a link there gets a 404 from a repository they will never have access
  * to. Never link a user here. */
-export const PRIVATE_REPO_URL = 'https://github.com/dborjan/redlens';
+export const PRIVATE_REPO_URL = 'https://github.com/lensql/redlens';
+
+/** Every path that reaches the private repository — the current one and the
+ * name it had before moving to the LenSQL org on 2026-08-20.
+ *
+ * The old name is here, not deleted, because GitHub still redirects it: a link
+ * written last month sends the user to exactly the same 404 as one written
+ * today. A guard that forbids only the current spelling stops protecting every
+ * file that predates the move, which is most of them. */
+export const PRIVATE_REPO_PATHS = ['lensql/redlens', 'dborjan/redlens'] as const;

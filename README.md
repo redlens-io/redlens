@@ -18,6 +18,12 @@ you can filter, chart, transpose and export without leaving the tab.
 
 ![The RedLens SQL editor with schema-aware completion](https://lensql.dev/img/listing/editor.png)
 
+**Charts from any result, free** — pick a type, a label column and the values,
+and the grid becomes a chart. Sorting, filtering, transposing, grouping, diffing
+two runs and editing in place are all free too. There is no premium grid.
+
+![The result grid switched to a bar chart: chart type, label column and value columns selectable above, with venue seats plotted per arena from demo data](https://lensql.dev/img/listing/charts.png)
+
 **The Table Optimization Advisor** *(Pro)* — distribution skew, unsorted blocks,
 stale statistics and AWS's own recommendations, each with the SQL that fixes it.
 
@@ -141,9 +147,9 @@ paid for. Invoices, payment method, seats and machine activations live there too
 Two commitments that come with paying:
 
 - **Refunds: 14 days, no questions asked** — on a purchase or a renewal.
-- **After twelve months of paying, the last version you paid for is yours to
-  keep**, permanently, Pro features included. You stop getting upgrades and
-  support, not the software.
+- **If a licence lapses, nothing of yours is touched** — the Pro features lock
+  and everything else keeps working forever. Connections, history, saved queries
+  and notebooks are untouched, and Free never expires.
 
 ---
 
@@ -360,12 +366,12 @@ and, for Data API and CloudWatch features, to AWS endpoints you already reach.
 </details>
 
 <details>
-<summary><strong>What if I stop paying after a year or two?</strong></summary>
+<summary><strong>What if I stop paying?</strong></summary>
 
-Twelve months of uninterrupted payment earns you a perpetual licence to the last
-version released during your paid term — Pro features included. You stop
-receiving upgrades, support and security fixes, not the software you paid for.
-Below twelve months you revert to the Free tier, which never expires.
+The Pro features lock and you revert to the Free tier, which never expires and is
+never capped. Nothing of yours is deleted: connections, history, saved queries
+and notebooks are untouched, and your databases are never involved. Renewing
+restores Pro immediately.
 </details>
 
 <details>
