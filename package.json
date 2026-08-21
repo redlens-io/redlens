@@ -2,7 +2,7 @@
   "name": "redlens",
   "displayName": "RedLens — SQL IDE & MCP for Amazon Redshift",
   "description": "Redshift-native SQL IDE for VS Code: Data API and direct connections, schema explorer, query results, and an embedded MCP server for AI agents.",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "publisher": "lensql",
   "homepage": "https://lensql.dev",
   "license": "MIT",

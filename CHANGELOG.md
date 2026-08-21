@@ -6,6 +6,24 @@ extension's Marketplace page.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 the project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] — 2026-08-20
+
+**RedLens is now published as a LenSQL product.** The extension is unchanged —
+same features, same free tier, same MIT licence, same repository at
+github.com/redlens-io/redlens, same `lensql.redlens` identifier. What changed is
+the name of the company behind it: LenSQL is where RedLens now lives alongside
+the products that will follow it, and it is the name you will see on the
+checkout page and in the customer portal if you upgrade to Pro.
+
+Nothing you have installed needs to change, and no link you have saved has
+moved. Every URL this extension has ever shipped still answers exactly as it
+did.
+
+Internally, the guard that keeps user-facing links out of the private repository
+now recognises that repository under both the name it has and the name it used
+to have — a link written before the move sends you to the same place, so the
+check should catch it either way.
+
 ## [1.0.6] — 2026-08-17
 
 **Adds the missing way to start the Pro trial.** This page described the 14-day
